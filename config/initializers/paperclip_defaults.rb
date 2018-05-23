@@ -1,5 +1,7 @@
 url = '/system/:class/:attachment/:id_partition/:hash.:content_type_extension'
 
+Paperclip::DataUriAdapter.register
+
 Paperclip::Attachment
     .default_options
     .update(

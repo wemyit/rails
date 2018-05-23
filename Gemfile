@@ -29,7 +29,7 @@ gem 'angular-rails-templates', '~> 1.0.0'
 gem 'font-awesome-rails', '~> 4.6.3'
 gem 'sprockets-es6', '~> 0.9.0'
 gem 'babel-source', '~> 5.8', '>= 5.8.35'
-gem 'paperclip', '~> 4.3', '>= 4.3.6'
+gem 'paperclip', '~> 5.2'
 gem 'responders', '~> 2.2'
 
 # Use ActiveModel has_secure_password
