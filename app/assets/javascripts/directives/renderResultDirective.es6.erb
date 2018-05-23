@@ -1,0 +1,12 @@
+angular.module('directives').directive('renderResult',
+    () => {
+      return {
+        templateUrl: 'renderResult.html',
+        restrict: 'E',
+        scope: {
+          result: '=result',
+          full: '=full'
+        },
+        controller: 'RenderResultController'
+      };
+    });

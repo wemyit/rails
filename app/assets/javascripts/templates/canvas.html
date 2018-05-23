@@ -1,0 +1,55 @@
+<div class="draw-ui center">
+    <div class="card yellow lighten-5">
+        <div class="row">
+            <div class="col s2" ng-include="'addShapes.html'"/>
+            <div class="col s9 draw-ui-canvas">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <canvas fabric="fabric"/>
+                </div>
+            </div>
+            <div class="col s1"/>
+            <div class="card-content">
+                <div class="col s12" ng-include="'shapes.html'"/>
+                <div class="col s12 options">
+                    <div class="chip blue-grey darken-1 white-text btn" ng-click="sendBackwards()">
+                        <i class="fa fa-object-ungroup"/>
+                        Назад
+                    </div>
+                    <div class="chip blue-grey darken-1 white-text btn" ng-click="bringForward()">
+                        <i class="fa fa-object-ungroup fa-rotate-180"/>
+                        Вперед
+                    </div>
+                    <div class="chip blue-grey darken-1 white-text btn" ng-click="deleteShape()">
+                        <i class="fa fa-remove"/>
+                        Удалить
+                    </div>
+                    <div class="chip blue-grey darken-1 white-text btn" ng-click="clear()">
+                        <i class="fa fa-file"/>
+                        Новый
+                    </div>
+                    <div class="chip blue-grey darken-1 white-text btn">
+                        <input type="color" ng-model="color" ng-change="updateColor(color)">
+                        Выберите цвет
+                    </div>
+                    <span class="card-title activator grey-text text-darken-4 right">
+                        <i class="fa fa-question"/>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4"><i class="fa fa-close right"/></span>
+            <div class="flow-text">
+                <p> Вам нужно нарисовать фигуру человека, составленную из 10 элементов,
+                    среди которых могут быть треугольники, круги, квадраты.
+                    Вы можете увеличивать или уменьшать эти элементы (геометрические фигуры) в размерах,
+                    накладывать друг на друга по мере надобности. </p>
+                <p> Важно, чтобы все эти три элемента в изображении человека присутствовали,
+                    а сумма общего количества использованных фигур была равна десяти.
+                    Если при рисовании вы использовали большее количество фигур, то нужно зачеркнуть
+                    лишнее, если же вами использовано фигур меньше, чем десять,
+                    необходимо дорисовать недостающие. Выполните рисунок по данной инструкции.</p>
+            </div>
+        </div>
+    </div>
+</div>

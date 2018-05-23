@@ -1,0 +1,6 @@
+angular.module('controllers').controller('NavigationController', [
+  '$scope', '$location',
+  ($scope, $location)=> {
+    $scope.goHome = () => $location.path('/');
+    $scope.draw = () => $location.path('/draw');
+  }]);

@@ -1,0 +1,148 @@
+angular.module('controllers').controller('CanvasController', [
+  '$scope', '$http', '$location', 'Fabric', 'FabricConstants', 'FabricWindow', 'ModalService', 'questions',
+  ($scope, $http, $location, Fabric, FabricConstants, FabricWindow, ModalService, questions) => {
+    const height = 500,
+        width = 500,
+        size = 100,
+        shapesNeeded = 10,
+        defaultColor = '#000000',
+        savedCanvasTag = 'canvas',
+        savedShapesTag = '$scope.shapes',
+        maxShapeAmount = shapesNeeded - 1;
+    let watcher = () => angular.noop();
+    let totalShapes = 0;
+
+    $scope.color = defaultColor;
+    $scope.shapes = {};
+    $scope.fabric = {};
+
+    $scope.init = () => {
+      watcher();
+      let saved = localStorage.getItem(savedCanvasTag) || {};
+      let savedShapes = localStorage.getItem(savedShapesTag);
+      $scope.shapes = savedShapes ? JSON.parse(savedShapes) : getDefaultShapes();
+      $scope.fabric = new Fabric({
+        JSONExportProperties: FabricConstants.JSONExportProperties,
+        shapeDefaults: FabricConstants.shapeDefaults,
+        textDefaults: FabricConstants.textDefaults,
+        json: saved
+      });
+      $scope.fabric.setCanvasSize(width, height);
+      watcher = $scope.$watch('fabric.selectedObject', () => {
+        update();
+      });
+    };
+
+    $scope.uploadResults = () => {
+      ModalService.showModal({
+        templateUrl: 'modals/questions.html',
+        controller: 'QuestionsController',
+        inputs: {
+          questions: angular.merge([], questions)
+        }
+      }).then(modal => {
+        modal.element.openModal();
+        modal.close.then(modalResult => {
+          let data = {
+            result: modalResult
+          };
+          angular.merge(data.result, $scope.shapes, {image: $scope.fabric.getCanvasData()});
+          modal.element.closeModal();
+          $http.post('<%= api_results_path %>', data)
+              .then(response => {
+                $scope.clear();
+                $location.path(`/result/${response.data.id}`);
+              })
+              .catch(e => console.error(e));
+        }).catch(error => console.error(error));
+      });
+    };
+
+    function getDefaultShapes() {
+      return {
+        triangle: 0,
+        circle: 0,
+        rect: 0
+      };
+    }
+
+    $scope.updateColor = (color) => {
+      $scope.color = color;
+      let shape = $scope.fabric.selectedObject;
+      if (shape) {
+        shape.set('fill', color);
+      } else {
+        $scope.fabric.canvasBackgroundColor = color;
+      }
+      update();
+    };
+
+    $scope.clear = () => {
+      update(true);
+      $scope.init();
+    };
+
+    $scope.addCircle = () => {
+      $scope.shapes.circle++;
+      let circle = new FabricWindow.Circle({radius: size / 2, left: size, top: size});
+      addShape(circle);
+    };
+
+    $scope.addTriangle = () => {
+      $scope.shapes.triangle++;
+      addShape(new FabricWindow.Triangle());
+    };
+
+    $scope.addRect = () => {
+      $scope.shapes.rect++;
+      addShape(new FabricWindow.Rect());
+    };
+
+    function addShape(shape) {
+      shape.set({fill: $scope.color, width: size, height: size});
+      $scope.fabric.addObjectToCanvas(shape);
+      update();
+    }
+
+    $scope.deleteShape = () => {
+      let shape = $scope.fabric.selectedObject;
+      if (shape) {
+        $scope.shapes[shape.type]--;
+        $scope.fabric.deleteActiveObject();
+      }
+      update();
+    };
+
+    $scope.bringForward = () => {
+      $scope.fabric.bringForward();
+      update();
+    };
+
+    $scope.sendBackwards = () => {
+      $scope.fabric.sendBackwards();
+      update();
+    };
+
+    $scope.check = shape => $scope.shapes[shape] < maxShapeAmount;
+
+    $scope.enough = () => {
+      return totalShapes >= shapesNeeded;
+    };
+
+    function update(clear) {
+      if (clear) {
+        localStorage.removeItem(savedCanvasTag);
+        localStorage.removeItem(savedShapesTag);
+      } else {
+        localStorage.setItem(savedCanvasTag, $scope.fabric.getJSON());
+        localStorage.setItem(savedShapesTag, JSON.stringify($scope.shapes));
+      }
+      count();
+    }
+
+    function count() {
+      totalShapes = _.sum(_.values($scope.shapes));
+    }
+
+    $scope.$on('canvas:created', $scope.init);
+  }]);

@@ -1,0 +1,6 @@
+asset 'lodash'
+asset 'fabric'
+asset 'angular'
+asset 'angular-route'
+asset 'angular-fabric'
+asset 'angular-modal-service'

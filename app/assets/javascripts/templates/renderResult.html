@@ -1,0 +1,58 @@
+<div ng-hide="full">
+    <div ng-include="'renderCard.html'"/>
+</div>
+
+<div class="row" ng-show="full">
+    <div class="card flow-text">
+        <div class="col s12 m5">
+            <div ng-include="'renderCard.html'"/>
+        </div>
+        <div class="card-panel col s12 m7 teal white-text">
+            <h4>Имя:</h4>{{ result.name || 'Неизвестно' }}
+        </div>
+        <div class="card-panel col s12 m7 teal white-text">
+            <h4>Возраст:</h4>{{ result.age || 'Неизвестен' }}
+        </div>
+        <div class="card-panel col s12 m7 teal white-text">
+            <h4>Тип №{{ result.type.value }}:</h4>{{ result.type.name }}
+        </div>
+        <div class="card-panel col s12 m7 teal white-text">
+            <h4>Краткое описание:</h4>{{ result.type.short_description }}
+        </div>
+        <div class="card-panel col s12 teal white-text">
+            <h4>Описание:</h4>{{ result.type.description }}
+        </div>
+        <div class="card-panel col s12 teal white-text" ng-show="result.subtype.description">
+            <h4>Описание подтипа:</h4>{{ result.subtype.description }}
+        </div>
+        <div class="card-panel col s12 teal white-text">
+            <h4>Экспертная оценка:</h4>{{ result.type.expert_opinion }}
+        </div>
+        <div class="card-panel col s12 teal white-text">
+            <h4>Общепсихологический статус:</h4>
+            {{ result.type.general_status }}
+        </div>
+        <div class="card-panel col s12 teal white-text">
+            <h4>Отношения с противоположным полом:</h4>
+            {{ result.type.relationship }}
+        </div>
+        <div class="card-panel col s12 teal white-text">
+            <h4>Самоописание:</h4>
+            <ul class="collection">
+                <li class="collection-item black-text" ng-show="description"
+                    ng-repeat="description in result.type.self_description.split('\.')">
+                    {{ description }}
+                </li>
+            </ul>
+        </div>
+        <div class="card-panel col s12 teal white-text" ng-show="result.questions.length > 0">
+            <h4>Дополнительные вопросы:</h4>
+            <ul class="collection">
+                <li class="collection-item black-text"
+                    ng-repeat="question in result.questions">
+                    {{ question.description }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

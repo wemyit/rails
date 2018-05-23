@@ -1,0 +1,29 @@
+.shapes {
+    position: relative !important;
+    top: 19em;
+    left: 1em;
+    z-index: 2 !important;
+    text-align: center;
+}
+
+.draw-ui {
+    width: 700px;
+    margin: 0 auto;
+}
+
+div.card {
+    overflow: hidden;
+}
+
+.options {
+    margin-bottom: -1em;
+}
+
+.draw-ui-canvas {
+    margin-top: 1em;
+}
+
+.mini {
+    margin: 1em;
+    height: 3em !important;
+}

@@ -1,0 +1,27 @@
+<div class="fixed-action-btn shapes" ng-hide="enough()">
+    <a class="btn-floating btn-large red">
+        <i class="fa fa-plus"/>
+    </a>
+    <ul>
+        <li>
+            <div class="btn-floating waves-effect waves-light red" ng-show="check('rect')" ng-click="addRect()">
+                <i class="fa fa-square"/>
+            </div>
+        </li>
+        <li>
+            <div class="btn-floating waves-effect waves-light yellow" ng-show="check('circle')" ng-click="addCircle()">
+                <i class="fa fa-circle"/>
+            </div>
+        </li>
+        <li>
+            <div class="btn-floating waves-effect waves-light green" ng-show="check('triangle')" ng-click="addTriangle()">
+                <i class="fa fa-play fa-rotate-270"/>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="fixed-action-btn shapes" ng-show="enough()" ng-click="uploadResults()">
+    <a class="btn-floating btn-large red">
+        <i class="fa fa-upload"/>
+    </a>
+</div>

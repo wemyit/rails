@@ -1,0 +1,16 @@
+<div class="card" ng-click="redirectToPage()">
+    <div class="card-image">
+        <img ng-src="{{ result.images.original }}">
+        <div class="card-title">
+            <div ng-show="result.name" class="chip">
+                {{ result.name }}
+            </div>
+            <div class="chip">
+                {{ result.updated_at | date : 'MM/dd/yyyy HH:mm' : 'EEST' }}
+            </div>
+        </div>
+    </div>
+    <div class="card-action center-align no-padding">
+        <div class="col s12" ng-include="'shapes.html'"/>
+    </div>
+</div>

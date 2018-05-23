@@ -1,0 +1,23 @@
+angular.module('controllers').controller('QuestionsController', [
+  '$scope', 'questions', 'close',
+  ($scope, questions, close) => {
+    $scope.age = '';
+    $scope.name = '';
+    $scope.questions = questions;
+    $scope.questionIds = [];
+
+    $scope.currentQuestion = () => $scope.questions[0];
+    $scope.moreQuestionsLeft = () => $scope.questions.length > 0;
+    $scope.no = () => $scope.questions.shift();
+    $scope.yes = () => {
+      $scope.questionIds.push($scope.no().id);
+    };
+
+    $scope.submit = () => {
+      close({
+        age: Number($scope.age) || null,
+        name: $scope.name,
+        question_ids: $scope.questionIds
+      });
+    };
+  }]);

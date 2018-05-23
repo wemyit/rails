@@ -1,0 +1,67 @@
+const app = angular.module('test', [
+  'ngRoute',
+  'templates',
+  'directives',
+  'controllers',
+  'common.fabric',
+  'angularModalService',
+  'common.fabric.utilities',
+  'common.fabric.constants'
+]);
+
+$(document).on('ready page:load', function () {
+  angular.bootstrap(document.body, ['test']);
+});
+
+app.config(['$routeProvider',
+  ($routeProvider) => {
+    $routeProvider
+        .when('/', {
+          templateUrl: 'main.html',
+          controller: 'MainController',
+          resolve: {
+            results: $http =>
+                $http.get('<%= api_results_path %>')
+                    .then(response => response.data)
+                    .catch(e => {
+                      console.error(e);
+                    })
+          }
+        })
+        .when('/draw', {
+          templateUrl: 'canvas.html',
+          controller: 'CanvasController',
+          resolve: {
+            questions: $http =>
+                $http.get('<%= api_questions_path %>')
+                    .then(response => response.data)
+                    .catch(e => {
+                      console.error(e);
+                    })
+          }
+        })
+        .when('/result/:id', {
+          templateUrl: 'result.html',
+          controller: 'ResultController',
+          resolve: {
+            result: ($http, $route, $location) =>
+                $http.get(`<%= api_results_path %>/${$route.current.params.id}`)
+                    .then(response => response.data)
+                    .catch(e => {
+                      console.error(e);
+                      $location.path('/')
+                    })
+          }
+        })
+        .otherwise({redirectTo: '/'});
+  }]).config(['$locationProvider',
+  ($locationProvider) => {
+    $locationProvider.html5Mode({
+      enable: true,
+      requireBase: false
+    });
+  }
+]);
+
+angular.module('controllers', []);
+angular.module('directives', []);

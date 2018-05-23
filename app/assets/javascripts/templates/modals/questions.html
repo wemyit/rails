@@ -1,0 +1,42 @@
+<div class="modal row">
+    <div class="modal-content">
+        <h4>
+            <i class="fa fa-question-circle prefix"/>
+            Дополнительная информация
+        </h4>
+        <div class="input-field col s12">
+            <i class="fa fa-user prefix"/>
+            <label>Ваше Имя (по желанию)</label>
+            <input class="validate" type="text" ng-model="name">
+        </div>
+        <div class="input-field col s12">
+            <i class="fa fa-user-secret prefix"/>
+            <label>Ваш Возраст (по желанию)</label>
+            <input class="validate" type="number" min="0" ng-model="age">
+        </div>
+        <div class="col s12" ng-show="moreQuestionsLeft()">
+            <div class="card hoverable blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Вопрос:</span>
+                    <p ng-bind="currentQuestion().question"/>
+                </div>
+                <div class="card-action">
+                    <span class="btn" ng-click="yes()">
+                        <i class="fa fa-thumbs-o-up prefix"/>
+                        да
+                    </span>
+                    <span class="btn" ng-click="no()">
+                        <i class="fa fa-thumbs-o-down prefix"/>
+                        нет
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" ng-hide="moreQuestionsLeft()">
+        <span class="modal-action modal-close waves-effect waves-green btn-large" ng-click="submit()">
+            <i class="fa fa-upload prefix"/>
+            Отправить
+        </span>
+    </div>
+</div>

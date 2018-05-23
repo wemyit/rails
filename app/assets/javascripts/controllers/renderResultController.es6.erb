@@ -1,0 +1,12 @@
+angular.module('controllers').controller('RenderResultController', [
+  '$scope', '$location',
+  ($scope, $location) => {
+    $scope.shapes = $scope.result.shapes;
+
+    function redirect() {
+      $location.path(`/result/${$scope.result.id}`);
+    }
+
+    $scope.redirectToPage = () => $scope.full ? angular.noop() : redirect();
+
+  }]);
