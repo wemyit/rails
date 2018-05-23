@@ -41,13 +41,14 @@ angular.module('controllers').controller('CanvasController', [
           questions: angular.merge([], questions)
         }
       }).then(modal => {
-        modal.element.openModal();
+        modal.element.modal();
+        modal.element.modal('open');
         modal.close.then(modalResult => {
           let data = {
             result: modalResult
           };
           angular.merge(data.result, $scope.shapes, {image: $scope.fabric.getCanvasData()});
-          modal.element.closeModal();
+          modal.element.modal('close');
           $http.post('<%= api_results_path %>', data)
               .then(response => {
                 $scope.clear();
